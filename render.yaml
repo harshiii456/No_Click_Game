@@ -2,12 +2,12 @@ services:
   # Backend API Service
   - type: web
     name: no-click-game-api
-    env: docker
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
+    env: node
     plan: free
     region: oregon
     branch: main
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -15,7 +15,7 @@ services:
       - key: MONGODB_URI
         sync: false
       - key: FRONTEND_URL
-        value: https://your-frontend-url.onrender.com
+        value: https://no-click-game-frontend.onrender.com
       - key: MIN_GAME_TIME
         value: 3
       - key: MAX_GAME_TIME
@@ -25,7 +25,7 @@ services:
   - type: web
     name: no-click-game-frontend
     env: static
-    buildCommand: cd frontend && npm run build
+    buildCommand: cd frontend && npm install && npm run build
     publishPath: ./frontend/build
     plan: free
     region: oregon
