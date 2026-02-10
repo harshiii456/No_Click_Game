@@ -62,6 +62,16 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Debug endpoint
+app.get('/api/debug', (req, res) => {
+  res.json({ 
+    message: 'Debug endpoint working',
+    routes: ['/api/game/start', '/api/game/end', '/api/leaderboard'],
+    environment: process.env.NODE_ENV || 'development',
+    mongodb: process.env.MONGODB_URI ? 'configured' : 'not configured'
+  });
+});
+
 // Routes
 app.use('/api/game', gameRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
