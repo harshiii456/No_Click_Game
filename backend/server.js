@@ -53,17 +53,22 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/no-click-
 .then(() => console.log('MongoDB connected successfully'))
 .catch(err => console.error('MongoDB connection error:', err));
 
-// Routes
-app.use('/api/game', gameRoutes);
-app.use('/api/leaderboard', leaderboardRoutes);
-
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
+  res.json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development'
   });
+});
+
+// Routes
+app.use('/api/game', gameRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
+
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Route not found' });
 });
 
 // Error handling middleware
