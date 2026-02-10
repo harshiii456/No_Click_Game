@@ -5,18 +5,14 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/build"
+        "distDir": "build"
       }
-    },
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/backend/server.js"
+      "dest": "https://no-click-game-api.onrender.com/api/$1"
     },
     {
       "src": "/(.*)",
@@ -24,7 +20,7 @@
     }
   ],
   "env": {
-    "MONGODB_URI": "@mongodb_uri",
+    "REACT_APP_API_URL": "https://no-click-game-api.onrender.com/api",
     "NODE_ENV": "production"
   }
 }
